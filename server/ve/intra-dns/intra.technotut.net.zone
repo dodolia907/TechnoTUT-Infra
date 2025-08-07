@@ -7,6 +7,7 @@ $TTL 86400
         86400       ;Minimum TTL
 )
         IN NS      dns.intra.technotut.net.
-201     IN PTR    vj1.intra.technotut.net.
-202     IN PTR    vj2.intra.technotut.net.
-203     IN PTR    vj3.intra.technotut.net.
+        IN A       192.168.99.51
+blt     IN A       192.168.99.11
+kube    IN A       192.168.99.33
+dns     IN A       192.168.99.51

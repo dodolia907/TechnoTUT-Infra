@@ -7,4 +7,6 @@ $TTL 86400
         86400       ;Minimum TTL
 )
         IN NS      dns.intra.technotut.net.
-1       IN PTR    rt.intra.technotut.net.
+11      IN PTR    blt.intra.technotut.net.
+33      IN PTR    kube.intra.technotut.net.
+51      IN PTR    dns.intra.technotut.net.
