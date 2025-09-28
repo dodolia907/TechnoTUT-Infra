@@ -147,13 +147,12 @@ interface port2.0.2
  switchport trunk allowed vlan all
  switchport trunk native vlan none
 !
-interface port2.0.3-2.0.12
+interface port2.0.3-2.0.10
  shutdown
  switchport
  switchport mode access
 !
-interface port2.0.13-2.0.14
- shutdown
+interface port2.0.11-2.0.14
  switchport
  switchport mode trunk
  switchport trunk allowed vlan all
@@ -161,7 +160,6 @@ interface port2.0.13-2.0.14
  channel-group 3 mode active
 !
 interface port2.0.15-2.0.16
- shutdown
  switchport
  switchport mode trunk
  switchport trunk allowed vlan all
@@ -169,7 +167,6 @@ interface port2.0.15-2.0.16
  channel-group 2 mode active
 !
 interface port2.0.17-2.0.24
- shutdown
  switchport
  switchport mode trunk
  switchport trunk allowed vlan all
