@@ -228,12 +228,6 @@ argocd account update-password
 ```
 Access `10.11.0.0` and login `admin` with password
 
-## Install Rancher
-```bash
-helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
-kubectl create namespace cattle-system
-```
-
 ## if you want to reset
 Uninstall and retry install  
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#remove-the-node  
