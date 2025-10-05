@@ -256,6 +256,74 @@ argocd app sync bind
 argocd app set bind --sync-policy automated
 ```
 
+## Install KubeVirt
+https://kubevirt.io/user-guide/cluster_admin/installation/#installing-kubevirt-on-kubernetes
+```bash
+export RELEASE=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${RELEASE}/kubevirt-operator.yaml
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${RELEASE}/kubevirt-cr.yaml
+```
+Install virtctl
+https://kubevirt.io/user-guide/user_workloads/virtctl_client_tool/
+```bash
+export VERSION=$(curl https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
+curl -L https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64 -o virtctl
+sudo mv virtctl /usr/local/bin/
+sudo chmod +x /usr/local/bin/virtctl
+```
+Install Containerized Data Importer (CDI)
+https://kubevirt.io/labs/kubernetes/lab2.html
+```bash
+export VERSION=$(basename $(curl -s -w %{redirect_url} https://github.com/kubevirt/containerized-data-importer/releases/latest))
+kubectl create -f https://github.com/kubevirt/containerized-data-importer/releases/download/$VERSION/cdi-operator.yaml
+kubectl create -f https://github.com/kubevirt/containerized-data-importer/releases/download/$VERSION/cdi-cr.yaml
+```
+
+## Deploy kubernetes dashboard
+```bash
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.image.repository=docker.io/library/kong --set kong.image.tag="3.9.0"
+kubectl patch svc kubernetes-dashboard-kong-proxy -n kubernetes-dashboard -p '{"spec": {"type": "LoadBalancer"}}'
+kubectl patch svc kubernetes-dashboard-kong-proxy -n kubernetes-dashboard -p '{"metadata": {"annotations": {"external-dns.alpha.kubernetes.io/hostname": "dash.svc.technotut.net"}}}'
+```
+Create ServiceAccount and ClusterRoleBinding for dashboard access
+```bash
+cat <<EOF | tee service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: root
+  namespace: kubernetes-dashboard
+EOF
+cat <<EOF | tee cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: root
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: root
+  namespace: kubernetes-dashboard
+EOF
+kubectl apply -f service-account.yaml
+kubectl apply -f cluster-role-binding.yaml
+```
+Get the token for login
+```bash
+kubectl -n kubernetes-dashboard create token root
+```
+
+## Install Nginx Ingress Controller
+```bash
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+```
+
 ## if you want to reset
 Uninstall and retry install  
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#remove-the-node  
