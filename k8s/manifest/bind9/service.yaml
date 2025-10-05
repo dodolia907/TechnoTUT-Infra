@@ -9,6 +9,7 @@ spec:
   selector:
     app: bind
   type: LoadBalancer
+  loadBalancerIP: 10.11.254.254
   ports:
     - name: dns-tcp
       protocol: TCP
