@@ -17,7 +17,7 @@ Beat Link Trigger は以下の機能を提供します。
 ## 使用方法
 1. [TechnoTUT Network](/network)に接続します。  
 2. コンテナ基盤上のDebian GUI環境に接続します。以下のいずれかの方法で接続できます。
-   - ブラウザで http://web.blt.svc.technotut.net へアクセスします。
+   - ブラウザで http://web.blt.svc.technotut.net/vnc.html へアクセスします。
    - RDPクライアントで `rdp.blt.svc.technotut.net`へリモートデスクトップ接続を行います。
    - VNCクライアントで `blt.svc.technotut.net:5901`へ接続します。  
 3. デスクトップの`blt-start.sh`を実行してBeat Link Triggerを起動します。  
