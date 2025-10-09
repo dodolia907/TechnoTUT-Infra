@@ -57,4 +57,13 @@ spec:
                 root:password
                 debian:password
               expire: False
+          networkData: |
+            version: 2
+            ethernets: 
+              enp1s0:
+                dhcp4: true
+              enp2s0:
+                dhcp4: true
+              enp3s0:
+                dhcp4: true
         name: cloudinitdisk
